@@ -83,7 +83,7 @@ class Patient:
     def count_by_disease(self):
         cursor.execute("SELECT disease, COUNT(*) FROM patient GROUP BY disease")
         rows = cursor.fetchall()
-        print("\n🦠 Patient Count by Disease:")
+        print("\n Patient Count by Disease:")
         for row in rows:
             print(f"{row[0]}: {row[1]} patients")
         print()
@@ -91,7 +91,7 @@ class Patient:
     def count_by_doctor(self):
         cursor.execute("SELECT doctor, COUNT(*) FROM patient GROUP BY doctor")
         rows = cursor.fetchall()
-        print(f"\n👨‍⚕️ Patient Count by Doctor: if ")
+        print(f"\n Patient Count by Doctor: if ")
         for row in rows:
             print(f"{row[0]}: {row[1]} patients")
         print()
@@ -134,4 +134,5 @@ while True:
 
 
 conn.close()
+
 
