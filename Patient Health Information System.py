@@ -1,10 +1,8 @@
 import sqlite3
 
-# Connect to SQLite database
 conn = sqlite3.connect("hospital.db")
 cursor = conn.cursor()
 
-# Create table if not exists
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS patient (
     id INTEGER PRIMARY KEY,
@@ -17,11 +15,9 @@ CREATE TABLE IF NOT EXISTS patient (
 """)
 conn.commit()
 
-
 class Patient:
 
-    # Add patient
-    def add_patient(self):
+   def add_patient(self):
         patient_id = int(input("Enter Patient ID: "))
         name = input("Enter Patient Name: ")
         age = int(input("Enter Age: "))
@@ -35,19 +31,18 @@ class Patient:
             VALUES (?, ?, ?, ?, ?, ?)""",
             (patient_id, name, age, disease, doctor, Treatement))
             conn.commit()
-            print("✅ Patient added successfully!\n")
+            print(" Patient added successfully!\n")
         except sqlite3.IntegrityError:
-            print("❌ Patient ID already exists.\n")
+            print(" Patient ID already exists.\n")
 
-    # View all patients
     def view_all_patients(self):
         cursor.execute("SELECT * FROM patient")
         rows = cursor.fetchall()
         if not rows:
-            print("⚠️ No patient records found.\n")
+            print(" No patient records found.\n")
             return
 
-        print("\n🏥 Patient Records:")
+        print("\n Patient Records:")
         print("ID\tName\tAge\tDisease\tDoctor\tTreatment")
         print("-" * 60)
 
@@ -55,7 +50,6 @@ class Patient:
             print(f"{row[0]}\t{row[1]}\t{row[2]}\t{row[3]}\t{row[4]}\t{row[5] if row[5] else 'N/A'}")
         print()
 
-    # Search patient by ID
     def search_patient(self):
         patient_id = int(input("Enter Patient ID to Search: "))
         cursor.execute("SELECT * FROM patient WHERE id=?", (patient_id,))
@@ -65,30 +59,27 @@ class Patient:
             print("-" * 60)
             print(f"{row[0]}\t{row[1]}\t{row[2]}\t{row[3]}\t{row[4]}\t{row[5] if row[5] else 'N/A'}\n")
         else:
-            print("❌ Patient not found.\n")
+            print(" Patient not found.\n")
 
-    # Update treatment/diagnosis
     def update_treatment(self):
         patient_id = int(input("Enter Patient ID to Update: "))
         treatment = input("Enter New Treatment/Diagnosis: ")
         cursor.execute("UPDATE patient SET treatment=? WHERE id=?", (treatment, patient_id))
         conn.commit()
         if cursor.rowcount:
-            print("✅ Treatment updated successfully.\n")
+            print(" Treatment updated successfully.\n")
         else:
-            print("❌ Patient not found.\n")
+            print(" Patient not found.\n")
 
-    # Delete patient record
     def delete_patient(self):
         patient_id = int(input("Enter Patient ID to Delete: "))
         cursor.execute("DELETE FROM patient WHERE id=?", (patient_id,))
         conn.commit()
         if cursor.rowcount:
-            print("✅ Patient deleted successfully.\n")
+            print(" Patient deleted successfully.\n")
         else:
-            print("❌ Patient not found.\n")
+            print(" Patient not found.\n")
 
-    # Show patient count by disease
     def count_by_disease(self):
         cursor.execute("SELECT disease, COUNT(*) FROM patient GROUP BY disease")
         rows = cursor.fetchall()
@@ -97,7 +88,6 @@ class Patient:
             print(f"{row[0]}: {row[1]} patients")
         print()
 
-    # Show patient count by doctor
     def count_by_doctor(self):
         cursor.execute("SELECT doctor, COUNT(*) FROM patient GROUP BY doctor")
         rows = cursor.fetchall()
@@ -107,11 +97,10 @@ class Patient:
         print()
 
 
-
 p = Patient()
 
 while True:
-    print("===== 🏥 Hospital Patient Management System =====")
+    print("=====  Hospital Patient Management System =====")
     print("1. Add Patient")
     print("2. View All Patients")
     print("3. Search Patient by ID")
@@ -138,11 +127,11 @@ while True:
     elif choice == "7":
         p.count_by_doctor()
     elif choice == "8":
-        print("👋 Exiting... Goodbye!")
+        print(" Exiting... Goodbye!")
         break
     else:
-        print("⚠️ Invalid choice, please try again.\n")
-
+        print(" Invalid choice, please try again.\n")
 
 
 conn.close()
+
